@@ -1,0 +1,95 @@
+# Runs one container per Coralvane tenant, all from the same image, on the same ports as the
+# Visual Studio launch profiles. Tenant values come from the files in tenants/.
+x-coralvane: &coralvane
+  image: coralvane-app
+  build:
+    context: .
+    dockerfile: src/Coralvane.App/Dockerfile
+
+services:
+  demo:
+    <<: *coralvane
+    ports:
+      - "5300:8080"
+    environment:
+      Deployment__Environment: Docker
+
+  saltmarsh-logistics:
+    <<: *coralvane
+    ports:
+      - "5301:8080"
+    environment:
+      Deployment__Environment: Docker
+      Tenant__Name: "Saltmarsh Logistics"
+      Tenant__Slug: "saltmarsh-logistics"
+      Tenant__PrimaryColor: "#2f6f8f"
+      Tenant__Tier: "Premium"
+      Tenant__Region: "US-West"
+      Tenant__ReleaseRing: "GA"
+      Tenant__SupportEmail: "support@saltmarsh-logistics.example"
+      Features__Reporting: "true"
+      Features__BetaDashboard: "false"
+
+  tidelark-media:
+    <<: *coralvane
+    ports:
+      - "5302:8080"
+    environment:
+      Deployment__Environment: Docker
+      Tenant__Name: "Tidelark Media"
+      Tenant__Slug: "tidelark-media"
+      Tenant__PrimaryColor: "#7a4fbf"
+      Tenant__Tier: "Standard"
+      Tenant__Region: "EU"
+      Tenant__ReleaseRing: "Beta"
+      Tenant__SupportEmail: "support@tidelark-media.example"
+      Features__Reporting: "false"
+      Features__BetaDashboard: "true"
+
+  pebblewick-dental:
+    <<: *coralvane
+    ports:
+      - "5303:8080"
+    environment:
+      Deployment__Environment: Docker
+      Tenant__Name: "Pebblewick Dental"
+      Tenant__Slug: "pebblewick-dental"
+      Tenant__PrimaryColor: "#2a9d8f"
+      Tenant__Tier: "Standard"
+      Tenant__Region: "US-East"
+      Tenant__ReleaseRing: "GA"
+      Tenant__SupportEmail: "support@pebblewick-dental.example"
+      Features__Reporting: "false"
+      Features__BetaDashboard: "false"
+
+  kittiwell-veterinary:
+    <<: *coralvane
+    ports:
+      - "5304:8080"
+    environment:
+      Deployment__Environment: Docker
+      Tenant__Name: "Kittiwell Veterinary"
+      Tenant__Slug: "kittiwell-veterinary"
+      Tenant__PrimaryColor: "#d9772b"
+      Tenant__Tier: "Premium"
+      Tenant__Region: "UK"
+      Tenant__ReleaseRing: "Alpha"
+      Tenant__SupportEmail: "support@kittiwell-veterinary.example"
+      Features__Reporting: "true"
+      Features__BetaDashboard: "true"
+
+  wrackmoor-outfitters:
+    <<: *coralvane
+    ports:
+      - "5305:8080"
+    environment:
+      Deployment__Environment: Docker
+      Tenant__Name: "Wrackmoor Outfitters"
+      Tenant__Slug: "wrackmoor-outfitters"
+      Tenant__PrimaryColor: "#5b6b3a"
+      Tenant__Tier: "Standard"
+      Tenant__Region: "US-West"
+      Tenant__ReleaseRing: "GA"
+      Tenant__SupportEmail: "support@wrackmoor-outfitters.example"
+      Features__Reporting: "false"
+      Features__BetaDashboard: "false"

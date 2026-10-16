@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <PackageReference Include="OpenFeature" Version="2.14.1" />
+    <PackageReference Include="Octopus.OpenFeature" Version="4.0.0" />
+  </ItemGroup>
+</Project>

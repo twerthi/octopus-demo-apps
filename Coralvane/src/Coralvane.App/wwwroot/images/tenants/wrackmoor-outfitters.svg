@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Wrackmoor Outfitters">
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <circle cx="47" cy="15" r="5" fill="none" stroke="#a3b072" stroke-width="3"/>
+  <path d="M7 47l16-26 8 12 9-16 17 30z" fill="#5b6b3a" stroke="#5b6b3a" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M23 21l-4 7 4-2 4 2z" fill="#ffffff"/>
+  <path d="M8 55q5-3 10 0t10 0 10 0 10 0 10 0" fill="none" stroke="#a3b072" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

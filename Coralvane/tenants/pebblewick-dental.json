@@ -1,0 +1,21 @@
+{
+  "name": "Pebblewick Dental",
+  "slug": "pebblewick-dental",
+  "tags": {
+    "Tier": "Standard",
+    "Region": "US-East",
+    "Release Ring": "GA"
+  },
+  "variables": {
+    "Tenant:Name": "Pebblewick Dental",
+    "Tenant:Slug": "pebblewick-dental",
+    "Tenant:PrimaryColor": "#2a9d8f",
+    "Tenant:Tier": "Standard",
+    "Tenant:Region": "US-East",
+    "Tenant:ReleaseRing": "GA",
+    "Tenant:SupportEmail": "support@pebblewick-dental.example",
+    "Features:Reporting": "false",
+    "Features:BetaDashboard": "false"
+  },
+  "localUrl": "http://localhost:5303"
+}

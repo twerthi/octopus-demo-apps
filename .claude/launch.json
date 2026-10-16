@@ -1,0 +1,8 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "kelpford-web", "runtimeExecutable": "dotnet", "runtimeArgs": ["run", "--no-build", "--project", "Kelpford/src/Kelpford.Web"], "port": 5100 },
+    { "name": "shoalbridge-portal", "runtimeExecutable": "dotnet", "runtimeArgs": ["run", "--no-build", "--project", "ShoalbridgeFinancial/src/Shoalbridge.Portal"], "port": 5200 },
+    { "name": "coralvane-kittiwell", "runtimeExecutable": "dotnet", "runtimeArgs": ["run", "--no-build", "--project", "Coralvane/src/Coralvane.App", "--launch-profile", "Kittiwell Veterinary"], "port": 5304 }
+  ]
+}

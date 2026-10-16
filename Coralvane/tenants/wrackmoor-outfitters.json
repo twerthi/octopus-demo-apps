@@ -1,0 +1,21 @@
+{
+  "name": "Wrackmoor Outfitters",
+  "slug": "wrackmoor-outfitters",
+  "tags": {
+    "Tier": "Standard",
+    "Region": "US-West",
+    "Release Ring": "GA"
+  },
+  "variables": {
+    "Tenant:Name": "Wrackmoor Outfitters",
+    "Tenant:Slug": "wrackmoor-outfitters",
+    "Tenant:PrimaryColor": "#5b6b3a",
+    "Tenant:Tier": "Standard",
+    "Tenant:Region": "US-West",
+    "Tenant:ReleaseRing": "GA",
+    "Tenant:SupportEmail": "support@wrackmoor-outfitters.example",
+    "Features:Reporting": "false",
+    "Features:BetaDashboard": "false"
+  },
+  "localUrl": "http://localhost:5305"
+}

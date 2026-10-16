@@ -1,0 +1,21 @@
+{
+  "name": "Saltmarsh Logistics",
+  "slug": "saltmarsh-logistics",
+  "tags": {
+    "Tier": "Premium",
+    "Region": "US-West",
+    "Release Ring": "GA"
+  },
+  "variables": {
+    "Tenant:Name": "Saltmarsh Logistics",
+    "Tenant:Slug": "saltmarsh-logistics",
+    "Tenant:PrimaryColor": "#2f6f8f",
+    "Tenant:Tier": "Premium",
+    "Tenant:Region": "US-West",
+    "Tenant:ReleaseRing": "GA",
+    "Tenant:SupportEmail": "support@saltmarsh-logistics.example",
+    "Features:Reporting": "true",
+    "Features:BetaDashboard": "false"
+  },
+  "localUrl": "http://localhost:5301"
+}

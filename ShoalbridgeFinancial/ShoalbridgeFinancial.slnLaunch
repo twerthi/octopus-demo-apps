@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "Portal + Payments API",
+    "Projects": [
+      { "Path": "src\\Shoalbridge.Payments.Api\\Shoalbridge.Payments.Api.csproj", "Action": "Start" },
+      { "Path": "src\\Shoalbridge.Portal\\Shoalbridge.Portal.csproj", "Action": "Start" }
+    ]
+  }
+]

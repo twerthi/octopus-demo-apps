@@ -1,0 +1,24 @@
+# Runs Kelpford Hub at http://localhost:5100, with the API at http://localhost:5101.
+services:
+  kelpford-api:
+    build:
+      context: .
+      dockerfile: src/Kelpford.Api/Dockerfile
+    image: kelpford-api
+    ports:
+      - "5101:8080"
+    environment:
+      Deployment__Environment: Docker
+
+  kelpford-web:
+    build:
+      context: .
+      dockerfile: src/Kelpford.Web/Dockerfile
+    image: kelpford-web
+    ports:
+      - "5100:8080"
+    environment:
+      Deployment__Environment: Docker
+      Api__BaseUrl: http://kelpford-api:8080
+    depends_on:
+      - kelpford-api

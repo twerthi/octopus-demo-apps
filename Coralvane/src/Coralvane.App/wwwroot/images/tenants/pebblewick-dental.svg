@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pebblewick Dental">
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <path d="M21 12c-6 0-9 6-8 13 1 8 4 12 6 22 1 6 6 6 7 0l3-10c1-3 5-3 6 0l3 10c1 6 6 6 7 0 2-10 5-14 6-22 1-7-2-13-8-13-5 0-7 3-11 3s-6-3-11-3z" fill="#2a9d8f"/>
+  <ellipse cx="24" cy="22" rx="4.5" ry="3" fill="#ffffff" opacity=".85" transform="rotate(-25 24 22)"/>
+</svg>

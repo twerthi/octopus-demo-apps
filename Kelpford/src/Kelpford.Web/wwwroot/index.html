@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kelpford Hub</title>
+  <script src="theme.js"></script>
+  <link rel="icon" href="images/logo-mark.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #f4f6f3; --surface: #ffffff; --text: #1d2a22; --muted: #5d6b62;
+      --brand: #1f5c3f; --brand-ink: #ffffff; --line: #dde3dc;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] { --bg: #121815; --surface: #1b231f; --text: #e6ece8; --muted: #9aa9a0;
+              --brand: #3f8f66; --line: #2a352f; color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+           background: var(--bg); color: var(--text); }
+    header { background: var(--brand); color: var(--brand-ink); padding: 1.25rem 2rem;
+             display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    header h1 { margin: 0; font-size: 1.4rem; letter-spacing: .02em; }
+    header p { margin: .15rem 0 0; opacity: .8; font-size: .9rem; }
+    .brand { display: flex; align-items: center; gap: .85rem; }
+    .brand img { height: 44px; width: 44px; }
+    .header-actions { display: flex; align-items: center; gap: .6rem; }
+    .theme-toggle { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; padding: 0;
+                    border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.15);
+                    color: #fff; cursor: pointer; }
+    .theme-toggle:hover { background: rgba(255,255,255,.28); }
+    .theme-toggle svg { width: 1.1rem; height: 1.1rem; }
+    :root[data-theme="dark"] .theme-toggle .moon, :root:not([data-theme="dark"]) .theme-toggle .sun { display: none; }
+    .env { padding: .35rem .8rem; border-radius: 999px; font-weight: 600; font-size: .85rem;
+           background: #6b7280; color: #fff; }
+    .env[data-env="development"] { background: #2563eb; }
+    .env[data-env="test"] { background: #b45309; }
+    .env[data-env="staging"] { background: #7c3aed; }
+    .env[data-env="production"] { background: #b91c1c; }
+    .banner { background: #fff4cc; color: #5c4400; padding: .75rem 2rem; border-bottom: 1px solid #f0d878; }
+    main { max-width: 1040px; margin: 0 auto; padding: 2rem; display: grid; gap: 1.5rem;
+           grid-template-columns: 2fr 1fr; }
+    @media (max-width: 760px) { main { grid-template-columns: 1fr; padding: 1rem; } }
+    section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; }
+    h2 { margin: 0 0 1rem; font-size: 1.05rem; }
+    article { padding: .85rem 0; border-top: 1px solid var(--line); }
+    article:first-of-type { border-top: 0; padding-top: 0; }
+    article h3 { margin: 0 0 .25rem; font-size: 1rem; }
+    article p { margin: 0; color: var(--muted); }
+    article time { font-size: .8rem; color: var(--muted); }
+    dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .4rem .9rem; font-size: .9rem; }
+    dt { color: var(--muted); }
+    dd { margin: 0; font-family: Consolas, ui-monospace, monospace; word-break: break-all; }
+    .component + .component { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+    .component h3 { margin: 0 0 .6rem; font-size: .95rem; }
+    .error { color: #b91c1c; }
+    footer.powered { display: flex; justify-content: center; padding: 1.5rem 1rem 2rem; }
+    footer.powered a { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted);
+                       font-size: .85rem; text-decoration: none; }
+    footer.powered a:hover { color: var(--text); }
+    footer.powered img { height: 22px; width: auto; }
+    footer.powered strong { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="images/logo-mark.svg" alt="">
+      <div>
+        <h1>Kelpford Hub</h1>
+        <p>Employee portal</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="env" id="env">Loading…</span>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Dark mode" aria-pressed="false" title="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.5V4M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="banner" id="banner" hidden></div>
+  <main>
+    <section>
+      <h2>Announcements</h2>
+      <div id="announcements">Loading…</div>
+    </section>
+    <section>
+      <h2>What’s deployed</h2>
+      <div class="component"><h3>Kelpford.Web</h3><dl id="web-info"></dl></div>
+      <div class="component"><h3>Kelpford.Api</h3><dl id="api-info"></dl></div>
+    </section>
+  </main>
+  <footer class="powered">
+    <a href="https://octopus.com" target="_blank" rel="noopener">
+      <img src="images/octopus-deploy.png" alt="">
+      <span>Powered by <strong>Octopus Deploy</strong></span>
+    </a>
+  </footer>
+  <script>
+    const fields = [["Version", "version"], ["Release", "release"], ["Environment", "environment"], ["Machine", "machine"]];
+
+    function renderInfo(el, info) {
+      el.innerHTML = "";
+      for (const [label, key] of fields) {
+        const dt = document.createElement("dt"); dt.textContent = label;
+        const dd = document.createElement("dd"); dd.textContent = info[key];
+        el.append(dt, dd);
+      }
+    }
+
+    function renderError(el, message) {
+      el.innerHTML = "";
+      const p = document.createElement("p");
+      p.className = "error"; p.textContent = message;
+      el.replaceWith(p);
+    }
+
+    async function load() {
+      const info = await (await fetch("/api/info")).json();
+      const env = document.getElementById("env");
+      env.textContent = info.web.environment;
+      env.dataset.env = info.web.environment.toLowerCase();
+      renderInfo(document.getElementById("web-info"), info.web);
+      if (info.banner) {
+        const banner = document.getElementById("banner");
+        banner.textContent = info.banner; banner.hidden = false;
+      }
+
+      const apiInfo = await fetch("/api/upstream/info");
+      if (apiInfo.ok) renderInfo(document.getElementById("api-info"), await apiInfo.json());
+      else renderError(document.getElementById("api-info"), "Kelpford.Api is unreachable.");
+
+      const container = document.getElementById("announcements");
+      const res = await fetch("/api/upstream/announcements");
+      if (!res.ok) { container.innerHTML = '<p class="error">Announcements are unavailable right now.</p>'; return; }
+      container.innerHTML = "";
+      for (const a of await res.json()) {
+        const article = document.createElement("article");
+        const h3 = document.createElement("h3"); h3.textContent = a.title;
+        const time = document.createElement("time"); time.textContent = a.posted;
+        const p = document.createElement("p"); p.textContent = a.body;
+        article.append(h3, time, p);
+        container.append(article);
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

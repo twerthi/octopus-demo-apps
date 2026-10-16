@@ -1,0 +1,21 @@
+{
+  "name": "Kittiwell Veterinary",
+  "slug": "kittiwell-veterinary",
+  "tags": {
+    "Tier": "Premium",
+    "Region": "UK",
+    "Release Ring": "Alpha"
+  },
+  "variables": {
+    "Tenant:Name": "Kittiwell Veterinary",
+    "Tenant:Slug": "kittiwell-veterinary",
+    "Tenant:PrimaryColor": "#d9772b",
+    "Tenant:Tier": "Premium",
+    "Tenant:Region": "UK",
+    "Tenant:ReleaseRing": "Alpha",
+    "Tenant:SupportEmail": "support@kittiwell-veterinary.example",
+    "Features:Reporting": "true",
+    "Features:BetaDashboard": "true"
+  },
+  "localUrl": "http://localhost:5304"
+}

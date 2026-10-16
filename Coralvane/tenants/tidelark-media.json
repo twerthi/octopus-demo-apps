@@ -1,0 +1,21 @@
+{
+  "name": "Tidelark Media",
+  "slug": "tidelark-media",
+  "tags": {
+    "Tier": "Standard",
+    "Region": "EU",
+    "Release Ring": "Beta"
+  },
+  "variables": {
+    "Tenant:Name": "Tidelark Media",
+    "Tenant:Slug": "tidelark-media",
+    "Tenant:PrimaryColor": "#7a4fbf",
+    "Tenant:Tier": "Standard",
+    "Tenant:Region": "EU",
+    "Tenant:ReleaseRing": "Beta",
+    "Tenant:SupportEmail": "support@tidelark-media.example",
+    "Features:Reporting": "false",
+    "Features:BetaDashboard": "true"
+  },
+  "localUrl": "http://localhost:5302"
+}

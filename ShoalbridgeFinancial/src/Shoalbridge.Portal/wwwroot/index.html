@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoalbridge Financial · Online Banking</title>
+  <script src="theme.js"></script>
+  <link rel="icon" href="images/logo-mark.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #f3f5f9; --surface: #ffffff; --text: #14213d; --muted: #5a6478;
+      --brand: #14213d; --accent: #c9a227; --line: #dde2ec; --ok: #15803d; --bad: #b91c1c;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] { --bg: #0d1424; --surface: #151f35; --text: #e7ebf3; --muted: #9aa5bb;
+              --brand: #0a1020; --line: #26324d; color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+    header { background: var(--brand); color: #fff; padding: 1.1rem 2rem; display: flex;
+             justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+             border-bottom: 3px solid var(--accent); }
+    header h1 { margin: 0; font-size: 1.3rem; font-weight: 600; }
+    header h1 span { color: var(--accent); }
+    .brand { display: flex; align-items: center; gap: .8rem; }
+    .brand img { height: 42px; width: 42px; }
+    .header-actions { display: flex; align-items: center; gap: .6rem; }
+    .theme-toggle { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; padding: 0;
+                    border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.15);
+                    color: #fff; cursor: pointer; }
+    .theme-toggle:hover { background: rgba(255,255,255,.28); }
+    .theme-toggle svg { width: 1.1rem; height: 1.1rem; }
+    :root[data-theme="dark"] .theme-toggle .moon, :root:not([data-theme="dark"]) .theme-toggle .sun { display: none; }
+    .env { padding: .35rem .8rem; border-radius: 999px; font-weight: 600; font-size: .85rem; background: #6b7280; color: #fff; }
+    .env[data-env="development"] { background: #2563eb; }
+    .env[data-env="test"] { background: #b45309; }
+    .env[data-env="staging"] { background: #7c3aed; }
+    .env[data-env="production"] { background: #b91c1c; }
+    main { max-width: 1080px; margin: 0 auto; padding: 2rem; display: grid; gap: 1.5rem; grid-template-columns: 2fr 1fr; }
+    @media (max-width: 800px) { main { grid-template-columns: 1fr; padding: 1rem; } }
+    .full { grid-column: 1 / -1; }
+    section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; }
+    h2 { margin: 0 0 1rem; font-size: 1.05rem; }
+    .accounts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .account { border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: 1rem; }
+    .account .name { font-weight: 600; }
+    .account .number { color: var(--muted); font-size: .85rem; }
+    .account .balance { font-size: 1.5rem; margin-top: .5rem; font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { text-align: left; padding: .55rem .4rem; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-weight: 600; }
+    td.amount { text-align: right; font-variant-numeric: tabular-nums; }
+    .tag { font-size: .75rem; padding: .1rem .45rem; border-radius: 4px; background: var(--accent); color: #14213d; }
+    form { display: grid; gap: .75rem; }
+    label { display: grid; gap: .3rem; font-size: .88rem; color: var(--muted); }
+    input, select { font: inherit; padding: .55rem .6rem; border: 1px solid var(--line); border-radius: 6px;
+                    background: var(--bg); color: var(--text); }
+    button { font: inherit; font-weight: 600; padding: .6rem; border: 0; border-radius: 6px; background: var(--accent); color: #14213d; cursor: pointer; }
+    #result { font-size: .9rem; min-height: 1.2em; margin: 0; }
+    #result.ok { color: var(--ok); } #result.bad { color: var(--bad); }
+    dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .4rem .9rem; font-size: .88rem; }
+    dt { color: var(--muted); }
+    dd { margin: 0; font-family: Consolas, ui-monospace, monospace; word-break: break-all; }
+    .component + .component { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+    .component h3 { margin: 0 0 .6rem; font-size: .95rem; }
+    .error { color: var(--bad); }
+    footer.powered { display: flex; justify-content: center; padding: 1.5rem 1rem 2rem; }
+    footer.powered a { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted);
+                       font-size: .85rem; text-decoration: none; }
+    footer.powered a:hover { color: var(--text); }
+    footer.powered img { height: 22px; width: auto; }
+    footer.powered strong { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="images/logo-mark.svg" alt="">
+      <h1>Shoalbridge <span>Financial</span></h1>
+    </div>
+    <div class="header-actions">
+      <span class="env" id="env">Loading…</span>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Dark mode" aria-pressed="false" title="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.5V4M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+      </button>
+    </div>
+  </header>
+  <main>
+    <section class="full">
+      <h2>Your accounts</h2>
+      <div class="accounts" id="accounts">Loading…</div>
+    </section>
+    <section>
+      <h2>Recent payments</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Payee</th><th>From</th><th class="amount">Amount</th><th></th></tr></thead>
+          <tbody id="payments"></tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Make a payment</h2>
+      <form id="pay">
+        <label>From account <select name="fromAccountId" id="from"></select></label>
+        <label>Payee <input name="payee" required value="Tidewater Insurance"></label>
+        <label>Amount (USD) <input name="amount" type="number" min="0.01" step="0.01" required value="250.00"></label>
+        <button type="submit">Send payment</button>
+        <p id="result" role="status"></p>
+      </form>
+    </section>
+    <section class="full">
+      <h2>What’s deployed</h2>
+      <div class="component"><h3>Shoalbridge.Portal</h3><dl id="portal-info"></dl></div>
+      <div class="component"><h3>Shoalbridge.Payments.Api</h3><dl id="api-info"></dl></div>
+    </section>
+  </main>
+  <footer class="powered">
+    <a href="https://octopus.com" target="_blank" rel="noopener">
+      <img src="images/octopus-deploy.png" alt="">
+      <span>Powered by <strong>Octopus Deploy</strong></span>
+    </a>
+  </footer>
+  <script>
+    const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+    let accounts = [];
+
+    function renderInfo(el, rows) {
+      el.innerHTML = "";
+      for (const [label, value] of rows) {
+        const dt = document.createElement("dt"); dt.textContent = label;
+        const dd = document.createElement("dd"); dd.textContent = value;
+        el.append(dt, dd);
+      }
+    }
+
+    async function loadInfo() {
+      const info = await (await fetch("/api/info")).json();
+      const d = info.portal;
+      const env = document.getElementById("env");
+      env.textContent = d.environment; env.dataset.env = d.environment.toLowerCase();
+      renderInfo(document.getElementById("portal-info"),
+        [["Version", d.version], ["Release", d.release], ["Environment", d.environment], ["Machine", d.machine]]);
+
+      const res = await fetch("/api/upstream/info");
+      const apiEl = document.getElementById("api-info");
+      if (!res.ok) { apiEl.outerHTML = '<p class="error">Payments service is unreachable.</p>'; return; }
+      const api = await res.json();
+      renderInfo(apiEl, [
+        ["Version", api.deployment.version], ["Release", api.deployment.release],
+        ["Environment", api.deployment.environment], ["Machine", api.deployment.machine],
+        ["Daily limit", money.format(api.dailyLimit)], ["Audit mode", api.auditMode ? "On" : "Off"]]);
+    }
+
+    async function loadAccounts() {
+      const el = document.getElementById("accounts");
+      const res = await fetch("/api/accounts");
+      if (!res.ok) { el.innerHTML = '<p class="error">Accounts are unavailable right now.</p>'; return; }
+      accounts = await res.json();
+      el.innerHTML = "";
+      const select = document.getElementById("from");
+      select.innerHTML = "";
+      for (const a of accounts) {
+        const card = document.createElement("div"); card.className = "account";
+        card.innerHTML = '<div class="name"></div><div class="number"></div><div class="balance"></div>';
+        card.querySelector(".name").textContent = a.name;
+        card.querySelector(".number").textContent = a.number;
+        card.querySelector(".balance").textContent = money.format(a.balance);
+        el.append(card);
+        select.append(new Option(`${a.name} (${a.number})`, a.id));
+      }
+    }
+
+    async function loadPayments() {
+      const body = document.getElementById("payments");
+      const res = await fetch("/api/payments");
+      if (!res.ok) { body.innerHTML = '<tr><td colspan="5" class="error">Payments are unavailable.</td></tr>'; return; }
+      body.innerHTML = "";
+      for (const p of await res.json()) {
+        const tr = document.createElement("tr");
+        const account = accounts.find(a => a.id === p.fromAccountId);
+        const cells = [new Date(p.createdAt).toLocaleDateString(), p.payee, account ? account.number : p.fromAccountId, money.format(p.amount)];
+        cells.forEach((text, i) => { const td = document.createElement("td"); td.textContent = text; if (i === 3) td.className = "amount"; tr.append(td); });
+        const tagCell = document.createElement("td");
+        if (p.audited) { const t = document.createElement("span"); t.className = "tag"; t.textContent = "Audited"; tagCell.append(t); }
+        tr.append(tagCell);
+        body.append(tr);
+      }
+    }
+
+    document.getElementById("pay").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      const result = document.getElementById("result");
+      const res = await fetch("/api/payments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fromAccountId: form.get("fromAccountId"), payee: form.get("payee"), amount: Number(form.get("amount")) })
+      });
+      if (res.ok) { result.className = "ok"; result.textContent = "Payment sent."; loadPayments(); }
+      else {
+        const problem = await res.json().catch(() => ({}));
+        result.className = "bad";
+        result.textContent = problem.detail || problem.title || "The payment couldn’t be sent.";
+      }
+    });
+
+    loadInfo();
+    loadAccounts().then(loadPayments);
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "Web + API",
+    "Projects": [
+      { "Path": "src\\Kelpford.Api\\Kelpford.Api.csproj", "Action": "Start" },
+      { "Path": "src\\Kelpford.Web\\Kelpford.Web.csproj", "Action": "Start" }
+    ]
+  }
+]

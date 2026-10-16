@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coralvane Workspace</title>
+  <script src="theme.js"></script>
+  <link rel="icon" href="images/logo-mark.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --tenant: #e2595b;
+      --bg: #f6f5f4; --surface: #ffffff; --text: #24201f; --muted: #6b6461; --line: #e5e1de;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] { --bg: #151312; --surface: #1f1c1b; --text: #ece7e4; --muted: #a59d99; --line: #322d2b; color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+    header { background: var(--tenant); color: #fff; padding: 1.25rem 2rem; display: flex;
+             justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: .9rem; }
+    .brand > img { height: 48px; width: 48px; }
+    header small { display: flex; align-items: center; gap: .4rem; opacity: .85; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
+    header h1 { margin: .1rem 0 0; font-size: 1.45rem; }
+    .badges { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .badge { padding: .3rem .75rem; border-radius: 999px; font-size: .8rem; font-weight: 600;
+             background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.35); }
+    .theme-toggle { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; padding: 0;
+                    border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.15);
+                    color: #fff; cursor: pointer; }
+    .theme-toggle:hover { background: rgba(255,255,255,.28); }
+    .theme-toggle svg { width: 1.1rem; height: 1.1rem; }
+    :root[data-theme="dark"] .theme-toggle .moon, :root:not([data-theme="dark"]) .theme-toggle .sun { display: none; }
+    .env { background: #6b7280; border-color: transparent; }
+    .env[data-env="development"] { background: #2563eb; }
+    .env[data-env="test"] { background: #b45309; }
+    .env[data-env="staging"] { background: #7c3aed; }
+    .env[data-env="production"] { background: #b91c1c; }
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem; display: grid; gap: 1.25rem;
+           grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 860px) { main { grid-template-columns: repeat(2, 1fr); padding: 1rem; } }
+    @media (max-width: 480px) { main { grid-template-columns: 1fr; } }
+    section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.3rem; }
+    .wide { grid-column: span 2; } .full { grid-column: 1 / -1; }
+    @media (max-width: 480px) { .wide { grid-column: auto; } }
+    h2 { margin: 0 0 .9rem; font-size: 1rem; }
+    .metric .label { color: var(--muted); font-size: .85rem; }
+    .metric .value { font-size: 1.9rem; font-weight: 600; margin-top: .3rem; font-variant-numeric: tabular-nums; }
+    .bars { display: flex; align-items: flex-end; gap: .4rem; height: 120px; }
+    .bars div { flex: 1; background: var(--tenant); border-radius: 4px 4px 0 0; opacity: .85; }
+    ul { margin: 0; padding: 0; list-style: none; }
+    li { padding: .5rem 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 1rem; }
+    li:first-child { border-top: 0; }
+    .on { color: #15803d; font-weight: 600; } .off { color: var(--muted); }
+    .beta { border: 2px dashed var(--tenant); }
+    .beta h2::after { content: "BETA"; margin-left: .5rem; font-size: .7rem; padding: .1rem .4rem;
+                      border-radius: 4px; background: var(--tenant); color: #fff; vertical-align: middle; }
+    .muted { color: var(--muted); margin: 0; }
+    dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .4rem .9rem; font-size: .88rem; }
+    dt { color: var(--muted); }
+    header small img { height: 16px; width: 16px; }
+    dd { margin: 0; font-family: Consolas, ui-monospace, monospace; word-break: break-all; }
+    footer.powered { display: flex; justify-content: center; padding: 1.5rem 1rem 2rem; }
+    footer.powered a { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted);
+                       font-size: .85rem; text-decoration: none; }
+    footer.powered a:hover { color: var(--text); }
+    footer.powered img { height: 22px; width: auto; }
+    footer.powered strong { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img id="tenant-logo" alt="" hidden>
+      <div>
+        <small><img src="images/logo-mark.svg" alt="">Coralvane Workspace</small>
+        <h1 id="tenant-name">Loading…</h1>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge" id="tier"></span>
+      <span class="badge" id="ring"></span>
+      <span class="badge env" id="env"></span>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Dark mode" aria-pressed="false" title="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.5V4M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+      </button>
+    </div>
+  </header>
+  <main>
+    <section class="metric"><div class="label">Active users</div><div class="value" id="m-users">–</div></section>
+    <section class="metric"><div class="label">Bookings this week</div><div class="value" id="m-bookings">–</div></section>
+    <section class="metric"><div class="label">Open requests</div><div class="value" id="m-requests">–</div></section>
+    <section class="metric"><div class="label">Satisfaction</div><div class="value" id="m-csat">–</div></section>
+
+    <section class="wide">
+      <h2>Weekly bookings</h2>
+      <div class="bars" id="bars" aria-label="Bookings for the last eight weeks"></div>
+    </section>
+    <section class="wide">
+      <h2>Reports</h2>
+      <div id="reports"></div>
+    </section>
+
+    <section class="wide beta" id="beta" hidden>
+      <h2>Insights</h2>
+      <p class="muted">Bookings are trending up. Your busiest day is Tuesday, so consider adding staff coverage then.</p>
+    </section>
+
+    <section class="wide">
+      <h2>Plan and features</h2>
+      <ul id="features"></ul>
+    </section>
+    <section class="wide">
+      <h2>What’s deployed</h2>
+      <dl id="deploy"></dl>
+    </section>
+  </main>
+  <footer class="powered">
+    <a href="https://octopus.com" target="_blank" rel="noopener">
+      <img src="images/octopus-deploy.png" alt="">
+      <span>Powered by <strong>Octopus Deploy</strong></span>
+    </a>
+  </footer>
+  <script>
+    const set = (id, text) => { document.getElementById(id).textContent = text; };
+
+    function row(list, label, value, cls) {
+      const li = document.createElement("li");
+      const a = document.createElement("span"); a.textContent = label;
+      const b = document.createElement("span"); b.textContent = value; if (cls) b.className = cls;
+      li.append(a, b); list.append(li);
+    }
+
+    async function load() {
+      const [t, info, dash] = await Promise.all(
+        ["/api/tenant", "/api/info", "/api/dashboard"].map(u => fetch(u).then(r => r.json())));
+
+      document.documentElement.style.setProperty("--tenant", t.tenant.primaryColor);
+      document.title = `${t.tenant.name} · Coralvane Workspace`;
+      set("tenant-name", t.tenant.name);
+      // Tenants without a logo in images/tenants/ (like the demo tenant) show the name only.
+      const logo = document.getElementById("tenant-logo");
+      logo.onload = () => { logo.hidden = false; };
+      logo.src = `images/tenants/${encodeURIComponent(t.tenant.slug)}.svg`;
+      set("tier", `${t.tenant.tier} plan`);
+      set("ring", `${t.tenant.releaseRing} ring`);
+      const env = document.getElementById("env");
+      env.textContent = info.environment; env.dataset.env = info.environment.toLowerCase();
+
+      set("m-users", dash.activeUsers);
+      set("m-bookings", dash.bookingsThisWeek.toLocaleString());
+      set("m-requests", dash.openRequests);
+      set("m-csat", `${dash.satisfaction} / 5`);
+      const max = Math.max(...dash.weeklyBookings);
+      const bars = document.getElementById("bars");
+      for (const v of dash.weeklyBookings) {
+        const d = document.createElement("div"); d.style.height = `${(v / max) * 100}%`; d.title = v; bars.append(d);
+      }
+
+      const features = document.getElementById("features");
+      row(features, "Region", t.tenant.region);
+      row(features, "Reporting", t.features.reporting ? "Enabled" : "Not included", t.features.reporting ? "on" : "off");
+      row(features, "Insights (beta)", t.features.betaDashboard ? "Enabled" : "Off", t.features.betaDashboard ? "on" : "off");
+      row(features, "Support", t.tenant.supportEmail);
+      document.getElementById("beta").hidden = !t.features.betaDashboard;
+
+      const reports = document.getElementById("reports");
+      const res = await fetch("/api/reports");
+      if (res.ok) {
+        const ul = document.createElement("ul");
+        for (const r of await res.json()) row(ul, r.name, r.format);
+        reports.append(ul);
+      } else {
+        reports.innerHTML = '<p class="muted">Reporting is available on the Premium plan.</p>';
+      }
+
+      const dl = document.getElementById("deploy");
+      for (const [label, value] of [["Version", info.version], ["Release", info.release],
+                                    ["Environment", info.environment], ["Machine", info.machine], ["Tenant slug", t.tenant.slug]]) {
+        const dt = document.createElement("dt"); dt.textContent = label;
+        const dd = document.createElement("dd"); dd.textContent = value;
+        dl.append(dt, dd);
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

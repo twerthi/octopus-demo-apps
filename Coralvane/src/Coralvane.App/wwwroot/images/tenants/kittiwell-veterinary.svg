@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kittiwell Veterinary">
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <path d="M15 25l2-14 10 8q5-2 10 0l10-8 2 14q4 8 0 15-6 11-17 11t-17-11q-4-7 0-15z" fill="#d9772b"/>
+  <path d="M32 44c-6-4-9-7-9-11 0-3 2-5 5-5 2 0 3 1 4 3 1-2 2-3 4-3 3 0 5 2 5 5 0 4-3 7-9 11z" fill="#ffffff"/>
+</svg>

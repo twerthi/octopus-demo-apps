@@ -1,0 +1,24 @@
+# Runs the online banking portal at http://localhost:5200, with the payments API at http://localhost:5201.
+services:
+  shoalbridge-payments-api:
+    build:
+      context: .
+      dockerfile: src/Shoalbridge.Payments.Api/Dockerfile
+    image: shoalbridge-payments-api
+    ports:
+      - "5201:8080"
+    environment:
+      Deployment__Environment: Docker
+
+  shoalbridge-portal:
+    build:
+      context: .
+      dockerfile: src/Shoalbridge.Portal/Dockerfile
+    image: shoalbridge-portal
+    ports:
+      - "5200:8080"
+    environment:
+      Deployment__Environment: Docker
+      PaymentsApi__BaseUrl: http://shoalbridge-payments-api:8080
+    depends_on:
+      - shoalbridge-payments-api

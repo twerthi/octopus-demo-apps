@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 64" role="img" aria-label="Kelpford">
+  <rect width="64" height="64" rx="14" fill="#e7f0ea"/>
+  <g>
+    <path d="M10 53c5.5-4 11-4 16.5 0s11 4 16.5 0 11-4 11 0" fill="none" stroke="#3f8f66" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 50c-2-12 3-22 0-40" fill="none" stroke="#1f5c3f" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M32 43c-8-1-14-7-16-15 8 1 14 7 16 15z" fill="#1f5c3f"/>
+    <path d="M33 33c7-2 12-8 13-16-7 2-12 8-13 16z" fill="#3f8f66"/>
+    <path d="M32 21c-5-3-8-8-8-14 5 3 8 8 8 14z" fill="#1f5c3f"/>
+  </g>
+  <text x="78" y="43" font-family="Segoe UI, system-ui, sans-serif" font-size="34" font-weight="700" fill="#1f5c3f" letter-spacing="0.5">Kelp<tspan fill="#3f8f66" font-weight="400">ford</tspan></text>
+</svg>
