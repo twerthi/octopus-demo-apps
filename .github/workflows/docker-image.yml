@@ -22,7 +22,7 @@ on:
         required: true
         type: string
       version:
-        description: Image tag and app version, in yyyy.dd.mm.i format
+        description: Image tag and app version, in yyyy.mm.dd.i format
         required: true
         type: string
 
