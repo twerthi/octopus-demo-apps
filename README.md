@@ -114,7 +114,7 @@ Each company has a workflow in `.github/workflows/` that builds its apps' Docker
 
 A workflow runs when its company folder changes on `main`, or when you start it from the **Actions** tab. Pull requests build the images to check them, but don't push.
 
-Each image is tagged with `1.0.<run number>`, the commit SHA, and `latest` from `main`. The version tag is also the app's version, so it shows in the "What's deployed" panel. Add Docker Hub as an external feed in Octopus to deploy these images.
+Each image is tagged with a version in `yyyy.dd.mm.i` format, the commit SHA, and `latest` from `main`. The date is the UTC day the run started, and `i` is the iteration: the first run of the workflow that day is `.1`, the next `.2`, and so on, for example `2026.19.10.2`. Pull request runs don't count. Every image from one run gets the same version, and re-running a run keeps its version. The version tag is also the app's version, so it shows in the "What's deployed" panel. Add Docker Hub as an external feed in Octopus to deploy these images.
 
 The workflows need two settings in the repository's **Settings ➜ Secrets and variables ➜ Actions**:
 

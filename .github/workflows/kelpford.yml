@@ -15,7 +15,33 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Versions are yyyy.dd.mm.i, where i counts this workflow's runs that day (UTC), not
+  # counting pull requests. The first build of the day is .1, the next .2, and so on. It's
+  # worked out once from when the run started, so every image matches and re-runs keep
+  # their version.
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          run=$(gh api "repos/$REPO/actions/runs/$RUN_ID" --jq '[.workflow_id, .run_number, .created_at] | @tsv')
+          read -r workflow_id run_number created_at <<< "$run"
+          iteration=$(gh api -X GET --paginate "repos/$REPO/actions/workflows/$workflow_id/runs" \
+            -f created="${created_at:0:10}" -F per_page=100 \
+            --jq "[.workflow_runs[] | select(.event != \"pull_request\" and .run_number <= $run_number)] | length" \
+            | awk '{ n += $1 } END { print n }')
+          echo "version=$(date -u -d "$created_at" +%Y.%d.%m).$iteration" >> "$GITHUB_OUTPUT"
+
   image:
+    needs: version
     strategy:
       fail-fast: false
       matrix:
@@ -30,4 +56,5 @@ jobs:
       context: Kelpford
       dockerfile: ${{ matrix.dockerfile }}
       image: ${{ matrix.image }}
+      version: ${{ needs.version.outputs.version }}
     secrets: inherit

@@ -21,10 +21,14 @@ on:
         description: Image name without the namespace, for example kelpford-web
         required: true
         type: string
+      version:
+        description: Image tag and app version, in yyyy.dd.mm.i format
+        required: true
+        type: string
 
 env:
   NAMESPACE: twerthi
-  VERSION: 1.0.${{ github.run_number }}
+  VERSION: ${{ inputs.version }}
 
 jobs:
   build:
