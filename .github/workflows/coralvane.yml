@@ -1,0 +1,31 @@
+name: Coralvane
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Coralvane/**"
+      - ".github/workflows/coralvane.yml"
+      - ".github/workflows/docker-image.yml"
+  pull_request:
+    paths:
+      - "Coralvane/**"
+      - ".github/workflows/coralvane.yml"
+      - ".github/workflows/docker-image.yml"
+  workflow_dispatch:
+
+jobs:
+  image:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: coralvane-app
+            dockerfile: src/Coralvane.App/Dockerfile
+    name: ${{ matrix.image }}
+    uses: ./.github/workflows/docker-image.yml
+    with:
+      context: Coralvane
+      dockerfile: ${{ matrix.dockerfile }}
+      image: ${{ matrix.image }}
+    secrets: inherit

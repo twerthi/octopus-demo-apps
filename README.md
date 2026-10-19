@@ -21,6 +21,7 @@ The apps have no database, so they run anywhere .NET runs. The web front ends us
 
 ```
 octopus-demo-apps/
+├── .github/workflows/            Builds and pushes each company's Docker images
 ├── build.ps1                     Publishes every app and zips it as an Octopus package
 ├── Kelpford/
 │   ├── Kelpford.sln
@@ -100,6 +101,27 @@ To build one image, run `docker build` from the company folder so `Directory.Bui
 ```powershell
 docker build -f src/Kelpford.Web/Dockerfile --build-arg VERSION=1.2.0 -t kelpford-web:1.2.0 .
 ```
+
+## Build images with GitHub Actions
+
+Each company has a workflow in `.github/workflows/` that builds its apps' Docker images and pushes them to Docker Hub under the `twerthi` organization:
+
+| Workflow | Images |
+|---|---|
+| `kelpford.yml` | `twerthi/kelpford-api`, `twerthi/kelpford-web` |
+| `shoalbridge-financial.yml` | `twerthi/shoalbridge-payments-api`, `twerthi/shoalbridge-portal` |
+| `coralvane.yml` | `twerthi/coralvane-app` |
+
+A workflow runs when its company folder changes on `main`, or when you start it from the **Actions** tab. Pull requests build the images to check them, but don't push.
+
+Each image is tagged with `1.0.<run number>`, the commit SHA, and `latest` from `main`. The version tag is also the app's version, so it shows in the "What's deployed" panel. Add Docker Hub as an external feed in Octopus to deploy these images.
+
+The workflows need two settings in the repository's **Settings ➜ Secrets and variables ➜ Actions**:
+
+| Name | Kind | Value |
+|---|---|---|
+| `DOCKERHUB_USERNAME` | Variable | The Docker Hub account that owns the token |
+| `DOCKERHUB_TOKEN` | Secret | A Docker Hub access token with write access to the `twerthi` organization |
 
 ## Package the apps
 

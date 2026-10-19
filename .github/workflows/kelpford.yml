@@ -1,0 +1,33 @@
+name: Kelpford
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Kelpford/**"
+      - ".github/workflows/kelpford.yml"
+      - ".github/workflows/docker-image.yml"
+  pull_request:
+    paths:
+      - "Kelpford/**"
+      - ".github/workflows/kelpford.yml"
+      - ".github/workflows/docker-image.yml"
+  workflow_dispatch:
+
+jobs:
+  image:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: kelpford-api
+            dockerfile: src/Kelpford.Api/Dockerfile
+          - image: kelpford-web
+            dockerfile: src/Kelpford.Web/Dockerfile
+    name: ${{ matrix.image }}
+    uses: ./.github/workflows/docker-image.yml
+    with:
+      context: Kelpford
+      dockerfile: ${{ matrix.dockerfile }}
+      image: ${{ matrix.image }}
+    secrets: inherit

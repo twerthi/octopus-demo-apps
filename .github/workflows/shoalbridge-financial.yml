@@ -1,0 +1,33 @@
+name: Shoalbridge Financial
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ShoalbridgeFinancial/**"
+      - ".github/workflows/shoalbridge-financial.yml"
+      - ".github/workflows/docker-image.yml"
+  pull_request:
+    paths:
+      - "ShoalbridgeFinancial/**"
+      - ".github/workflows/shoalbridge-financial.yml"
+      - ".github/workflows/docker-image.yml"
+  workflow_dispatch:
+
+jobs:
+  image:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: shoalbridge-payments-api
+            dockerfile: src/Shoalbridge.Payments.Api/Dockerfile
+          - image: shoalbridge-portal
+            dockerfile: src/Shoalbridge.Portal/Dockerfile
+    name: ${{ matrix.image }}
+    uses: ./.github/workflows/docker-image.yml
+    with:
+      context: ShoalbridgeFinancial
+      dockerfile: ${{ matrix.dockerfile }}
+      image: ${{ matrix.image }}
+    secrets: inherit
