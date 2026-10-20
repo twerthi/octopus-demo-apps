@@ -29,6 +29,7 @@ Create two runbooks: **Enable maintenance mode** and **Disable maintenance mode*
 | `Deployment:Environment` | `#{Octopus.Environment.Name}` | Both apps |
 | `Deployment:ReleaseNumber` | `#{Octopus.Release.Number}` | Both apps |
 | `FeatureFlags:ClientIdentifier` | `#{Octopus.FeatureToggles.ClientIdentifier}` | Portal only. Connects the app to Octopus Feature Flags. |
+| `FeatureFlags:DarkModeSlug` | `default-dark-mode` | Portal only. The slug of the dark mode flag in Octopus. |
 | `PaymentsApi:BaseUrl` | `https://payments.staging.shoalbridge.example` | Portal only. Scope per environment. |
 | `Portal:MaintenanceMode` | `false` | Portal only |
 | `Portal:SupportPhone` | `1-800-555-0142` | Portal only |

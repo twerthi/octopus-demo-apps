@@ -1,5 +1,5 @@
-// Light and dark mode. The viewer's own choice wins, then the default-dark-mode
-// Octopus feature flag, then the operating system setting.
+// Light and dark mode. The viewer's own choice wins, then the dark mode Octopus feature flag
+// (its slug is FeatureFlags:DarkModeSlug in appsettings.json), then the operating system setting.
 (() => {
   const key = "theme";
   const root = document.documentElement;

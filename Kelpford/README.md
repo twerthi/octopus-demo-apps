@@ -24,6 +24,7 @@ To show a misconfiguration, scope `Api:BaseUrl` to the wrong host in Test. The p
 | `Deployment:Environment` | `#{Octopus.Environment.Name}` | Both apps |
 | `Deployment:ReleaseNumber` | `#{Octopus.Release.Number}` | Both apps |
 | `FeatureFlags:ClientIdentifier` | `#{Octopus.FeatureToggles.ClientIdentifier}` | Web only. Connects the app to Octopus Feature Flags. |
+| `FeatureFlags:DarkModeSlug` | `default-dark-mode` | Web only. The slug of the dark mode flag in Octopus. |
 | `Api:BaseUrl` | `https://api.test.kelpford.example` | Web only. Scope per environment. |
 | `Portal:Banner` | `Systems maintenance Saturday 08:00` | Web only. Leave empty to hide the banner. |
 | `Announcements:Office` | `Seattle office` | API only |

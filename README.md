@@ -70,16 +70,16 @@ Each app reads these settings from `appsettings.json`. Set them in Octopus with 
 Every web front end has a light and dark mode toggle in its header. The page picks its theme in this order:
 
 1. The viewer's own choice from the toggle, saved in their browser.
-2. The `default-dark-mode` [Octopus feature flag](https://octopus.com/docs/feature-flags). When it's on, the page starts in dark mode.
+2. The dark mode [Octopus feature flag](https://octopus.com/docs/feature-flags). When it's on, the page starts in dark mode.
 3. The viewer's operating system setting.
 
 To demo it:
 
-1. In the project, go to **Feature Flags** and create a flag with the slug `default-dark-mode`.
+1. In the project, go to **Feature Flags** and create a flag. The apps look for the slug `default-dark-mode`. To use a different slug, set `FeatureFlags:DarkModeSlug` in `appsettings.json` or as a variable.
 2. Set `FeatureFlags:ClientIdentifier` to `#{Octopus.FeatureToggles.ClientIdentifier}` with structured configuration variables, and deploy. Octopus fills in an identifier for the project, environment, and tenant.
 3. Turn the flag on for an environment. New visitors see dark mode within about a minute, because the provider caches flag values for that long. You don't need a new release.
 
-Each app evaluates the flag server-side in `FeatureFlags.cs` and serves the result at `GET /api/features`. Without a client identifier, or if the flag service can't be reached, the flag is off.
+Each app evaluates the flag server-side in `FeatureFlags.cs` and serves the result at `GET /api/features`. Without a client identifier, or if the flag service can't be reached, the flag is off. If the slug doesn't match a flag in Octopus, the flag is also off, and the app logs a warning naming the slug.
 
 For Coralvane, the client identifier is per tenant, so you can turn dark mode on for some tenants and not others. Use the flag's tenant targeting, or roll it out by release ring with tenant tags.
 

@@ -37,6 +37,7 @@ For a bonus, upgrade Pebblewick Dental to Premium by changing its tag and `Featu
 | `Deployment:Environment` | `#{Octopus.Environment.Name}` |
 | `Deployment:ReleaseNumber` | `#{Octopus.Release.Number}` |
 | `FeatureFlags:ClientIdentifier` | `#{Octopus.FeatureToggles.ClientIdentifier}` |
+| `FeatureFlags:DarkModeSlug` | `default-dark-mode` |
 | `Tenant:Name` | `Pebblewick Dental` |
 | `Tenant:Slug` | `pebblewick-dental` |
 | `Tenant:PrimaryColor` | `#2a9d8f` |
